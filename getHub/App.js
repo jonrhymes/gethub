@@ -1,12 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {
+  useState,
+  Component
+} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet
+} from 'react-native';
+
+import Input from './components/Input.jsx'
 
 export default function App() {
+  const api_key = "http://www.omdbapi.com/?apikey=${api_key}"
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Text style={styles.logo} >getHub</Text>
+      <Text styles={styles.motto}>The easiest way to GET /movies</Text>
+      <Input style={styles.input}/>
     </View>
   );
 }
@@ -18,4 +29,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    fontSize: 30,
+  },
+  motto: {
+    paddingBottom: 10,
+  },
+  input: {
+    padding: 40,
+  }
 });
