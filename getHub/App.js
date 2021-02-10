@@ -6,10 +6,14 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Image,
+  TouchableHighlight,
+  Modal
 } from 'react-native';
 
 // import Input from './components/Input.jsx';
+import api_key from './js/config';
 import axios from 'axios';
 
 export default function App() {
@@ -20,65 +24,105 @@ export default function App() {
   });
 
   const search = () => {
-      const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-      axios(api_uri + '&s=' + state.searchbar).then(({ data }) => {
-          let results = data.Search;
-          console.log(results)
-          setState(prevState => {
-              return { ...prevState, results: results }
-          })
+    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
+    axios(api_uri + '&s=' + state.searchbar).then(({ data }) => {
+      let results = data.Search;
+      console.log(results)
+      setState(prevState => {
+        return { ...prevState, results: results }
       })
-  }
+    })
+  };
+
+  const openPopup = id => {
+    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
+    axios(api_uri + '&i=' + id).then(({ data }) => {
+      let result = data;
+  
+      setState(prevState => {
+        return { ...prevState, selected: result }
+      })
+    })
+  };
+
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>
-          {/* <Image
-            style={styles.logo}
-            source={icon}
-          /> */}
-        getHub:
-            <Text style={styles.motto}> The easiest way to GET /movies</Text>
-        </Text>
+      <Text style={styles.title}>
+        getHub
+          <Image source={require('./assets/logo.png')} style={{width: 70, height: 50}}/>
+      </Text>
+      <Text style={styles.motto}> The easiest way to GET /movies</Text>
   
-        <View>
-            <TextInput
-                style={styles.searchbar}
-                placeholder={state.searchbar}
-                onChangeText={text => setState(prevState => {
-                    return {...prevState, searchbar: text}
-                })}
-                onSubmitEditing={search}
-            />
+    <View>
+      <TextInput
+        style={styles.searchbar}
+        placeholder={state.searchbar}
+        onChangeText={text => setState(prevState => {
+          return {...prevState, searchbar: text}
+        })}
+        onSubmitEditing={search}
+        />
+    </View> 
 
-        <ScrollView
-        style={styles.results}>
-                {state.results.map(result => (
-                    <View key={result.imdbID}>
-                        <Text>{result.Title}</Text>       
-                    </View>
-                ))}
-            </ScrollView>
-        </View>
-      </View>
-    )
-};
+    <ScrollView style={styles.results}>
+      {state.results.map(result => (
+        <TouchableHighlight
+          key={result.imdbID}
+          onPress={() => openPopup(result.imdbID)}
+        >
+          <View style={styles.result}>
+            <Image
+              source={{ uri: result.Poster }}
+              style={{
+                width: '100%',
+                height: 300
+              }}
+              resizeMode='cover'
+            />
+            <Text style={styles.heading}>{result.Title}</Text>       
+          </View>
+        </TouchableHighlight>
+      ))}  
+    </ScrollView>
+
+    <Modal
+      animationType='fade'
+      transparent={false}
+      visible={(typeof state.selected.Title != 'undefined')}
+      >
+        <Text>Hello World!</Text>
+      {/* <View style={styles.popup}> 
+          <Image
+            source={{ uri: state.selected.Poster }}
+            style={{ width: '100%', height: 300 }}
+            resizeMode='center' />
+        <Text style={styles.poptitle}>{state.selected.Title}</Text>
+          <Text style={{ marginBottom: 20 }}>Rating: {state.selected.imdbRating}</Text>
+          <Text>{state.selected.Plot}</Text>
+      </View> */}
+    </Modal>
+      
+  </View>
+)};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'gold',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 70,
+    paddingHorizontal: 20
   },
   title: {
-    fontSize: 30,
+    fontSize: 65,
     fontWeight: 'bold',
-    paddingBottom: 10,
   },
   motto: {
     fontSize: 25,
     color: 'green',
-    fontWeight: 'normal'
+    fontWeight: 'normal',
+    paddingBottom: 10,
   },
   logo: {
     width: 2,
@@ -97,11 +141,21 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   results: {
+    flex: 1
+  },
+  result: {
     flex: 1,
     width: '100%',
     marginBottom: 20
   },
   heading: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+    padding: 20,
+    backgroundColor: 'darkgreen'
+  },
+  popup: {
 
   }
 });

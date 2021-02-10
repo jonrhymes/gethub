@@ -58,8 +58,8 @@ const Input = () => {
 
             <ScrollView>
                 {state.results.map(result => (
-                    <View key={result.imdbID}>
-                        <Text>{result.Title}</Text>       
+                    <View key={result.imdbID} style={style.result}>
+                        <Text style={style.results}>{result.Title}</Text>       
                     </View>
                 ))}
             </ScrollView>
