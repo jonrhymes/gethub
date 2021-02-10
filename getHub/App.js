@@ -12,8 +12,6 @@ import {
   Modal
 } from 'react-native';
 
-// import Input from './components/Input.jsx';
-import api_key from './js/config';
 import axios from 'axios';
 
 export default function App() {
@@ -24,6 +22,7 @@ export default function App() {
   });
 
   const search = () => {
+    // const OMDB_API_KEY = process.env.OMDB_API_KEY;
     const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
     axios(api_uri + '&s=' + state.searchbar).then(({ data }) => {
       let results = data.Search;
