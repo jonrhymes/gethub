@@ -1,6 +1,6 @@
 import React, {
   useState,
-  Component
+  Image
 } from 'react';
 import {
   View,
@@ -8,16 +8,30 @@ import {
   StyleSheet
 } from 'react-native';
 
-import Input from './components/Input.jsx'
+import Input from './components/Input.jsx';
+import axios from 'axios';
+
+const api_key = './js/config.API_KEY';
 
 export default function App() {
-  const api_key = "http://www.omdbapi.com/?apikey=${api_key}"
+  const api_url = `http://www.omdbapi.com/?apikey=${api_key}`;
+  const [state, setState] = useState({
+    s: "Enter a movie...",
+    results: [],
+    selected: {}
+  });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo} >getHub</Text>
-      <Text styles={styles.motto}>The easiest way to GET /movies</Text>
-      <Input style={styles.input}/>
+
+      <Text style={styles.title}>
+      <Image
+        source={require('@/assets/video-solid.svg')}
+      />getHub:
+          <Text style={styles.motto}> The easiest way to GET /movies</Text>
+      </Text>
+
+      <Input />
     </View>
   );
 }
@@ -29,13 +43,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
+  title: {
     fontSize: 30,
-  },
-  motto: {
+    fontWeight: 'bold',
     paddingBottom: 10,
   },
-  input: {
-    padding: 40,
-  }
+  motto: {
+    fontSize: 25,
+    color: 'blue',
+    fontWeight: 'normal'
+  },
 });
