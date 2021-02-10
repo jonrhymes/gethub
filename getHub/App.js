@@ -9,8 +9,10 @@ import {
 } from 'react-native';
 
 import Input from './components/Input.jsx';
+
 import axios from 'axios';
 
+// const icon = this.props.active ? require('./assets/search-solid.png') : require('./assets/search-solid.png');
 const api_key = './js/config.API_KEY';
 
 export default function App() {
@@ -23,15 +25,18 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text style={styles.title}>
+          {/* <Image
+            style={styles.logo}
+            source={icon}
+          /> */}
+        getHub:
+            <Text style={styles.motto}> The easiest way to GET /movies</Text>
+        </Text>
 
-      <Text style={styles.title}>
-      <Image
-        source={require('@/assets/video-solid.svg')}
-      />getHub:
-          <Text style={styles.motto}> The easiest way to GET /movies</Text>
-      </Text>
-
-      <Input />
+        <Input />
+      </View>
     </View>
   );
 }
@@ -39,7 +44,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'gold',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -50,7 +55,11 @@ const styles = StyleSheet.create({
   },
   motto: {
     fontSize: 25,
-    color: 'blue',
+    color: 'green',
     fontWeight: 'normal'
   },
+  logo: {
+    width: 2,
+    height: 2
+  }
 });

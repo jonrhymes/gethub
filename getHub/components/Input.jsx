@@ -12,14 +12,16 @@ const Input = () => {
         <View>
             <TextInput
                 style={{
-                    height: 40,
-                    borderColor: 'gray',
+                    flex: 0.3,
+                    height: 30,
+                    borderColor: 'green',
                     borderWidth: 2,
+                    borderRadius: 10,
                     fontSize: 40,
-                    padding: 50,
-                    textAlign: 'center'
+                    padding: 20,
+                    textAlign: 'left',
                 }}
-                onChangeText={text => onChangeText(text)}
+                onChangeText={text => onChangeText(text, TextInput.value)}
             />
             <Text>{TextInput.value}</Text>
         </View>
