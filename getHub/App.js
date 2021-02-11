@@ -22,14 +22,9 @@ export default function App() {
   });
 
   const search = () => {
-    // FIX THIS LINE
-    // MUST BE A GET REQUEST WITH 'QUERY' AS THE BODY
-    console.log(state.searchbar);
-    axios(`http://localhost:8000/search`, {
-      params: {
-        query: state.searchbar
-        }
-      }).then(({ data }) => {
+    axios.post(`http://localhost:8000/search`, {
+      query: state.searchbar
+    }).then(({ data }) => {
         let results = data;
         console.log(results)
         setState(prevState => {
