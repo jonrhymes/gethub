@@ -22,13 +22,13 @@ export default function App() {
   });
 
   const search = () => {
-    // const OMDB_API_KEY = process.env.OMDB_API_KEY;
-    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-    axios(api_uri + '&s=' + state.searchbar).then(({ data }) => {
-      let results = data.Search;
-      console.log(results)
-      setState(prevState => {
-        return { ...prevState, results: results }
+    axios.post(`http://localhost:8000/search`, {
+      query: state.searchbar
+    }).then(({ data }) => {
+        let results = data;
+        console.log(results)
+        setState(prevState => {
+          return { ...prevState, results: results }
       })
     })
   };
