@@ -23,18 +23,19 @@ export default function App() {
   });
 
   const openPopup = id => {
-    const apiurl = 'http://www.omdbapi.com/?apikey=f5d63a56';
-    axios(apiurl + "&i=" + id).then(({ data }) => {
+    axios.get(`https://gethub-api.herokuapp.com/${id}`).then(({ data }) => {
       let result = data;
-      console.log(result)
-      setState((prevState) => {
-        return { ...prevState, selected: result };
-      });
-    });
+      console.log(result);
+      setState(prevState => {
+        return { ...prevState, selected: result }
+      })
+    })
   };
 
+
   const search = () => {
-    axios.post(`http://localhost:8000/search`, {
+    console.log(`Search query is ${state.searchbar}`);
+    axios.post(`https://gethub-api.herokuapp.com/search`, {
       query: state.searchbar
     }).then(({ data }) => {
         let results = data;
