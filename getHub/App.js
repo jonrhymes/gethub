@@ -144,17 +144,18 @@ const styles = StyleSheet.create({
     height: 2
   },
   searchbar: {
-    width: 100,
-    height: 40,
+    width: '95%',
+    height: 30,
     backgroundColor: 'rgba(255, 255, 255)',
     borderColor: 'green',
     borderWidth: 2,
     borderRadius: 10,
     fontSize: 20,
     padding: 30,
-    textAlign: 'left',
+    textAlign: 'center',
     marginBottom: 30,
-    color: '#36454f'
+    color: 'black',
+    fontWeight: '700'
   },
   results: {
     flex: 1
