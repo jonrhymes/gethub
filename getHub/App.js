@@ -22,6 +22,7 @@ export default function App() {
   });
 
   const search = () => {
+    console.log(`Search query is ${state.searchbar}`);
     axios.post(`http://localhost:8000/search`, {
       query: state.searchbar
     }).then(({ data }) => {
@@ -34,10 +35,9 @@ export default function App() {
   };
 
   const openPopup = id => {
-    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-    axios(api_uri + '&i=' + id).then(({ data }) => {
+    axios.get(`http://localhost:8000/search/${id}`).then(({ data }) => {
       let result = data;
-  
+      console.log(result);
       setState(prevState => {
         return { ...prevState, selected: result }
       })
@@ -57,6 +57,7 @@ export default function App() {
         style={styles.searchbar}
         placeholder={state.searchbar}
         onChangeText={text => setState(prevState => {
+          console.log(state.searchbar)
           return {...prevState, searchbar: text}
         })}
         onSubmitEditing={search}
@@ -89,8 +90,8 @@ export default function App() {
       transparent={false}
       visible={(typeof state.selected.Title != 'undefined')}
       >
-        <Text>Hello World!</Text>
-      {/* <View style={styles.popup}> 
+        {/* <Text>Hello World!</Text> */}
+      <View style={styles.popup}> 
           <Image
             source={{ uri: state.selected.Poster }}
             style={{ width: '100%', height: 300 }}
@@ -98,7 +99,14 @@ export default function App() {
         <Text style={styles.poptitle}>{state.selected.Title}</Text>
           <Text style={{ marginBottom: 20 }}>Rating: {state.selected.imdbRating}</Text>
           <Text>{state.selected.Plot}</Text>
-      </View> */}
+      </View>
+      <TouchableHighlight
+        onPress={() => setState(prevState => {
+          return { ...prevState, selected: {} }
+        })}
+      >
+        <Text style={styles.closeBtn}>Close</Text>
+      </TouchableHighlight>
     </Modal>
       
   </View>
@@ -129,7 +137,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 30,
+    height: 60,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
@@ -155,6 +163,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkgreen'
   },
   popup: {
-
+    padding: 20
+  },
+  poptitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 5
+  },
+  closeBtn: {
+    padding: 20,
+    fontSize: 24,
+    color: '#FFF',
+    fontWeight: 700,
+    backgroundColor: '#2484C4'
   }
 });
