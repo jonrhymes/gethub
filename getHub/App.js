@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
     height: 2
   },
   searchbar: {
-    width: '100%',
+    width: 100,
     height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255)',
     borderColor: 'green',
     borderWidth: 2,
     borderRadius: 10,
