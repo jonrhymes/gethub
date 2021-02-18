@@ -145,16 +145,16 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 30,
+    height: 40,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
     borderRadius: 10,
-    fontSize: 40,
+    fontSize: 20,
     padding: 30,
     textAlign: 'left',
     marginBottom: 30,
-    outlineWidth: 0
+    color: '#36454f'
   },
   results: {
     flex: 1
