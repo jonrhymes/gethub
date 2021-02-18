@@ -34,16 +34,15 @@ export default function App() {
     })
   };
 
-  // const openPopup = id => {
-  //   const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-  //   axios(api_uri + '&i=' + id).then(({ data }) => {
-  //     let result = data;
-  
-  //     setState(prevState => {
-  //       return { ...prevState, selected: result }
-  //     })
-  //   })
-  // };
+  const openPopup = id => {
+    axios.get(`http://localhost:8000/search/${id}`).then(({ data }) => {
+      let result = data;
+      console.log(result);
+      setState(prevState => {
+        return { ...prevState, selected: result }
+      })
+    })
+  };
 
   return (
     <View style={styles.container}>
@@ -69,7 +68,7 @@ export default function App() {
       {state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
-          // onPress={() => openPopup(result.imdbID)}
+          onPress={() => openPopup(result.imdbID)}
         >
           <View style={styles.result}>
             <Image
@@ -91,8 +90,8 @@ export default function App() {
       transparent={false}
       visible={(typeof state.selected.Title != 'undefined')}
       >
-        <Text>Hello World!</Text>
-      {/* <View style={styles.popup}> 
+        {/* <Text>Hello World!</Text> */}
+      <View style={styles.popup}> 
           <Image
             source={{ uri: state.selected.Poster }}
             style={{ width: '100%', height: 300 }}
@@ -100,7 +99,14 @@ export default function App() {
         <Text style={styles.poptitle}>{state.selected.Title}</Text>
           <Text style={{ marginBottom: 20 }}>Rating: {state.selected.imdbRating}</Text>
           <Text>{state.selected.Plot}</Text>
-      </View> */}
+      </View>
+      <TouchableHighlight
+        onPress={() => setState(prevState => {
+          return { ...prevState, selected: {} }
+        })}
+      >
+        <Text style={styles.closeBtn}>Close</Text>
+      </TouchableHighlight>
     </Modal>
       
   </View>
@@ -157,6 +163,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'darkgreen'
   },
   popup: {
-
+    padding: 20
+  },
+  poptitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 5
+  },
+  closeBtn: {
+    padding: 20,
+    fontSize: 24,
+    color: '#FFF',
+    fontWeight: 700,
+    backgroundColor: '#2484C4'
   }
 });
