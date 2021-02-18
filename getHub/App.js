@@ -46,19 +46,6 @@ export default function App() {
     })
   };
 
-<<<<<<< HEAD
-  const openPopup = id => {
-    axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
-      let result = data;
-      console.log(result);
-      setState(prevState => {
-        return { ...prevState, selected: result }
-      })
-    })
-  };
-
-=======
->>>>>>> a3f78421434424175f0d1658a06840a1bc7bc536
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
