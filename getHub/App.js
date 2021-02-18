@@ -18,8 +18,20 @@ export default function App() {
   const [state, setState] = useState({
       searchbar: 'search for any movie',
       results: [],
-      selected: {}
+      selected: {},
+      isVisible: false
   });
+
+  const openPopup = id => {
+    axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
+      let result = data;
+      console.log(result);
+      setState(prevState => {
+        return { ...prevState, selected: result }
+      })
+    })
+  };
+
 
   const search = () => {
     console.log(`Search query is ${state.searchbar}`);
@@ -34,6 +46,7 @@ export default function App() {
     })
   };
 
+<<<<<<< HEAD
   const openPopup = id => {
     axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
       let result = data;
@@ -44,6 +57,8 @@ export default function App() {
     })
   };
 
+=======
+>>>>>>> a3f78421434424175f0d1658a06840a1bc7bc536
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -57,7 +72,6 @@ export default function App() {
         style={styles.searchbar}
         placeholder={state.searchbar}
         onChangeText={text => setState(prevState => {
-          console.log(state.searchbar)
           return {...prevState, searchbar: text}
         })}
         onSubmitEditing={search}
@@ -79,36 +93,43 @@ export default function App() {
               }}
               resizeMode='cover'
             />
-            <Text style={styles.heading}>{result.Title}</Text>       
+            <Text style={styles.heading}>{result.Title}
+              <Text style={styles.year}> ({result.Year})</Text>
+            </Text>       
           </View>
         </TouchableHighlight>
       ))}  
-    </ScrollView>
-
-    <Modal
-      animationType='fade'
-      transparent={false}
-      visible={(typeof state.selected.Title != 'undefined')}
-      >
-        {/* <Text>Hello World!</Text> */}
-      <View style={styles.popup}> 
-          <Image
-            source={{ uri: state.selected.Poster }}
-            style={{ width: '100%', height: 300 }}
-            resizeMode='center' />
-        <Text style={styles.poptitle}>{state.selected.Title}</Text>
-          <Text style={{ marginBottom: 20 }}>Rating: {state.selected.imdbRating}</Text>
-          <Text>{state.selected.Plot}</Text>
-      </View>
-      <TouchableHighlight
-        onPress={() => setState(prevState => {
-          return { ...prevState, selected: {} }
-        })}
-      >
-        <Text style={styles.closeBtn}>Close</Text>
-      </TouchableHighlight>
-    </Modal>
+      </ScrollView>
       
+      <Modal
+        animationType='slide'
+        transparent={false}
+        visible={(typeof state.selected.Title != 'undefined')}
+        style={styles.modal}
+      >
+        <View style={styles.popup}>
+        <Image
+              source={{ uri: state.selected.Poster }}
+              style={{
+                width: 200,
+                height: 200
+              }}
+              resizeMode='cover'
+            />
+          <Text style={styles.popTitle}>{state.selected.Title} {state.selected.Year}</Text>
+          <Text>Runtime: {state.selected.Runtime}</Text>
+          <Text>Directed by: {state.selected.Director}</Text>
+          <Text style={{marginBottom: 20}}>Rating: {state.selected.Rated}</Text>
+          <Text>{state.selected.Plot}</Text>
+        </View>
+        <TouchableHighlight
+          onPress={() => setState(prevState => {
+            return { ...prevState, selected: {}}
+          })}
+        >
+          <Text style={styles.closeBtn}>Close</Text>
+        </TouchableHighlight>
+      </Modal>
   </View>
 )};
 
@@ -137,7 +158,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 60,
+    height: 30,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
@@ -145,7 +166,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     padding: 30,
     textAlign: 'left',
-    marginBottom: 30
+    marginBottom: 30,
+    outlineWidth: 0
   },
   results: {
     flex: 1
@@ -162,19 +184,22 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'darkgreen'
   },
+  year: {
+    fontWeight: 'normal'
+  },
   popup: {
     padding: 20
   },
-  poptitle: {
+  popTitle: {
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 5
   },
   closeBtn: {
     padding: 20,
-    fontSize: 24,
-    color: '#FFF',
-    fontWeight: 700,
-    backgroundColor: '#2484C4'
+    fontSize: 20,
+    fontWeight: '700',
+    backgroundColor: 'darkgreen',
+    color: '#fff'
   }
 });
