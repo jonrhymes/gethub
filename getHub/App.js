@@ -18,28 +18,30 @@ export default function App() {
   const [state, setState] = useState({
       searchbar: 'search for any movie',
       results: [],
-      selected: {}
+      selected: {},
+      isVisible: false
   });
 
-  const search = () => {
-    // const OMDB_API_KEY = process.env.OMDB_API_KEY;
-    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-    axios(api_uri + '&s=' + state.searchbar).then(({ data }) => {
-      let results = data.Search;
-      console.log(results)
+  const openPopup = id => {
+    axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
+      let result = data;
+      console.log(result);
       setState(prevState => {
-        return { ...prevState, results: results }
+        return { ...prevState, selected: result }
       })
     })
   };
 
-  const openPopup = id => {
-    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-    axios(api_uri + '&i=' + id).then(({ data }) => {
-      let result = data;
-  
-      setState(prevState => {
-        return { ...prevState, selected: result }
+
+  const search = () => {
+    console.log(`Search query is ${state.searchbar}`);
+    axios.post(`https://gethub-api.herokuapp.com/search`, {
+      query: state.searchbar
+    }).then(({ data }) => {
+        let results = data;
+        console.log(results)
+        setState(prevState => {
+          return { ...prevState, results: results }
       })
     })
   };
@@ -78,29 +80,43 @@ export default function App() {
               }}
               resizeMode='cover'
             />
-            <Text style={styles.heading}>{result.Title}</Text>       
+            <Text style={styles.heading}>{result.Title}
+              <Text style={styles.year}> ({result.Year})</Text>
+            </Text>       
           </View>
         </TouchableHighlight>
       ))}  
-    </ScrollView>
-
-    <Modal
-      animationType='fade'
-      transparent={false}
-      visible={(typeof state.selected.Title != 'undefined')}
-      >
-        <Text>Hello World!</Text>
-      {/* <View style={styles.popup}> 
-          <Image
-            source={{ uri: state.selected.Poster }}
-            style={{ width: '100%', height: 300 }}
-            resizeMode='center' />
-        <Text style={styles.poptitle}>{state.selected.Title}</Text>
-          <Text style={{ marginBottom: 20 }}>Rating: {state.selected.imdbRating}</Text>
-          <Text>{state.selected.Plot}</Text>
-      </View> */}
-    </Modal>
+      </ScrollView>
       
+      <Modal
+        animationType='slide'
+        transparent={false}
+        visible={(typeof state.selected.Title != 'undefined')}
+        style={styles.modal}
+      >
+        <View style={styles.popup}>
+        <Image
+              source={{ uri: state.selected.Poster }}
+              style={{
+                width: 200,
+                height: 200
+              }}
+              resizeMode='cover'
+            />
+          <Text style={styles.popTitle}>{state.selected.Title} {state.selected.Year}</Text>
+          <Text>Runtime: {state.selected.Runtime}</Text>
+          <Text>Directed by: {state.selected.Director}</Text>
+          <Text style={{marginBottom: 20}}>Rating: {state.selected.Rated}</Text>
+          <Text>{state.selected.Plot}</Text>
+        </View>
+        <TouchableHighlight
+          onPress={() => setState(prevState => {
+            return { ...prevState, selected: {}}
+          })}
+        >
+          <Text style={styles.closeBtn}>Close</Text>
+        </TouchableHighlight>
+      </Modal>
   </View>
 )};
 
@@ -137,7 +153,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
     padding: 30,
     textAlign: 'left',
-    marginBottom: 30
+    marginBottom: 30,
+    outlineWidth: 0
   },
   results: {
     flex: 1
@@ -154,7 +171,22 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: 'darkgreen'
   },
+  year: {
+    fontWeight: 'normal'
+  },
   popup: {
-
+    padding: 20
+  },
+  popTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 5
+  },
+  closeBtn: {
+    padding: 20,
+    fontSize: 20,
+    fontWeight: '700',
+    backgroundColor: 'darkgreen',
+    color: '#fff'
   }
 });
