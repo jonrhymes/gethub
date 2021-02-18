@@ -22,6 +22,7 @@ export default function App() {
   });
 
   const search = () => {
+    console.log(`Search query is ${state.searchbar}`);
     axios.post(`http://localhost:8000/search`, {
       query: state.searchbar
     }).then(({ data }) => {
@@ -33,16 +34,16 @@ export default function App() {
     })
   };
 
-  const openPopup = id => {
-    const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
-    axios(api_uri + '&i=' + id).then(({ data }) => {
-      let result = data;
+  // const openPopup = id => {
+  //   const api_uri = `http://www.omdbapi.com/?apikey=f5d63a56`;
+  //   axios(api_uri + '&i=' + id).then(({ data }) => {
+  //     let result = data;
   
-      setState(prevState => {
-        return { ...prevState, selected: result }
-      })
-    })
-  };
+  //     setState(prevState => {
+  //       return { ...prevState, selected: result }
+  //     })
+  //   })
+  // };
 
   return (
     <View style={styles.container}>
@@ -57,6 +58,7 @@ export default function App() {
         style={styles.searchbar}
         placeholder={state.searchbar}
         onChangeText={text => setState(prevState => {
+          console.log(state.searchbar)
           return {...prevState, searchbar: text}
         })}
         onSubmitEditing={search}
@@ -67,7 +69,7 @@ export default function App() {
       {state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
-          onPress={() => openPopup(result.imdbID)}
+          // onPress={() => openPopup(result.imdbID)}
         >
           <View style={styles.result}>
             <Image
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 30,
+    height: 60,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
