@@ -23,7 +23,7 @@ export default function App() {
   });
 
   const openPopup = id => {
-    axios.get(`http://localhost:8000/${id}`).then(({ data }) => {
+    axios.get(`http://localhost:8000/search/${id}`).then(({ data }) => {
       let result = data;
       console.log(result);
       setState(prevState => {
@@ -34,7 +34,6 @@ export default function App() {
 
 
   const search = () => {
-    // const queryString = state.searchbar.toString();
     console.log(`Search query is ${state.searchbar}`);
     axios.post(`http://localhost:8000/search`, {
       query: state.searchbar
@@ -49,7 +48,9 @@ export default function App() {
         })}
         else {
           console.log(`No results found.`);
-        } 
+          setState(prevState => {
+            return { ...prevState, results: results };
+        })} 
     }).catch((error) => {
       console.log(error);
     })
@@ -75,7 +76,12 @@ export default function App() {
     </View> 
 
     <ScrollView style={styles.results}>
-      {state.results?
+      {state.results == 'no-results'?
+      <View style={styles.result}>
+        <Text style={styles.heading}>No Results</Text>
+      </View>
+      
+      :
       state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
@@ -95,9 +101,7 @@ export default function App() {
             </Text>       
           </View>
         </TouchableHighlight>
-      ))
-      : ''
-      }  
+      ))}  
       </ScrollView>
       
       <Modal
