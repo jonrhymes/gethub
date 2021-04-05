@@ -34,15 +34,22 @@ export default function App() {
 
 
   const search = () => {
+    // const queryString = state.searchbar.toString();
     console.log(`Search query is ${state.searchbar}`);
     axios.post(`http://localhost:8000/search`, {
       query: state.searchbar
     }).then(({ data }) => {
         let results = data;
-        console.log(results)
-        setState(prevState => {
-          return { ...prevState, results: results }
-      })
+
+        if (results !== 'no-results') {
+          console.log('Search results are:');
+          console.log(results);
+          setState(prevState => {
+            return { ...prevState, results: results };
+        })}
+        else {
+          console.log(`No results found.`);
+        } 
     }).catch((error) => {
       console.log(error);
     })
