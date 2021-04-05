@@ -23,7 +23,7 @@ export default function App() {
   });
 
   const openPopup = id => {
-    axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
+    axios.get(`http://localhost:8000/${id}`).then(({ data }) => {
       let result = data;
       console.log(result);
       setState(prevState => {
@@ -35,7 +35,7 @@ export default function App() {
 
   const search = () => {
     console.log(`Search query is ${state.searchbar}`);
-    axios.post(`https://gethub-api.herokuapp.com/search`, {
+    axios.post(`http://localhost:8000/search`, {
       query: state.searchbar
     }).then(({ data }) => {
         let results = data;
@@ -43,6 +43,8 @@ export default function App() {
         setState(prevState => {
           return { ...prevState, results: results }
       })
+    }).catch((error) => {
+      console.log(error);
     })
   };
 
@@ -66,7 +68,8 @@ export default function App() {
     </View> 
 
     <ScrollView style={styles.results}>
-      {state.results.map(result => (
+      {state.results?
+      state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
           onPress={() => openPopup(result.imdbID)}
@@ -85,7 +88,9 @@ export default function App() {
             </Text>       
           </View>
         </TouchableHighlight>
-      ))}  
+      ))
+      : ''
+      }  
       </ScrollView>
       
       <Modal
@@ -154,7 +159,7 @@ const styles = StyleSheet.create({
     padding: 30,
     textAlign: 'left',
     marginBottom: 30,
-    outlineWidth: 0
+    // outlineWidth: 0
   },
   results: {
     flex: 1
