@@ -39,10 +39,20 @@ export default function App() {
       query: state.searchbar
     }).then(({ data }) => {
         let results = data;
-        console.log(results)
-        setState(prevState => {
-          return { ...prevState, results: results }
-      })
+
+        if (results !== 'no-results') {
+          console.log('Search results are:');
+          console.log(results);
+          setState(prevState => {
+            return { ...prevState, results: results };
+        })}
+        else {
+          console.log(`No results found.`);
+          setState(prevState => {
+            return { ...prevState, results: results };
+        })} 
+    }).catch((error) => {
+      console.log(error);
     })
   };
 
@@ -66,7 +76,13 @@ export default function App() {
     </View> 
 
     <ScrollView style={styles.results}>
-      {state.results.map(result => (
+      {state.results == 'no-results'?
+      <View style={styles.result}>
+        <Text style={styles.heading}>No Results</Text>
+      </View>
+      
+      :
+      state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
           onPress={() => openPopup(result.imdbID)}
@@ -154,7 +170,7 @@ const styles = StyleSheet.create({
     padding: 30,
     textAlign: 'left',
     marginBottom: 30,
-    outlineWidth: 0
+    // outlineWidth: 0
   },
   results: {
     flex: 1
