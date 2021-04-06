@@ -23,7 +23,7 @@ export default function App() {
   });
 
   const openPopup = id => {
-    axios.get(`http://localhost:8000/search/${id}`).then(({ data }) => {
+    axios.get(`https://gethub-api.herokuapp.com/search/${id}`).then(({ data }) => {
       let result = data;
       console.log(result);
       setState(prevState => {
@@ -35,7 +35,7 @@ export default function App() {
 
   const search = () => {
     console.log(`Search query is ${state.searchbar}`);
-    axios.post(`http://localhost:8000/search`, {
+    axios.post(`https://gethub-api.herokuapp.com/search`, {
       query: state.searchbar
     }).then(({ data }) => {
         let results = data;
