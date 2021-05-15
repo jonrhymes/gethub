@@ -64,7 +64,6 @@ export default function App() {
       </Text>
       <Text style={styles.motto}> The easiest way to GET /movies</Text>
   
-    {/* <View> */}
       <TextInput
         style={styles.searchbar}
         placeholder={state.searchbar}
@@ -73,7 +72,6 @@ export default function App() {
         })}
         onSubmitEditing={search}
         />
-    {/* </View>  */}
 
     <ScrollView style={styles.results}>
       {state.results == 'no-results'?
