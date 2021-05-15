@@ -165,10 +165,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     fontSize: 30,
-    padding: 5,
+    paddingHorizontal: 15,
     textAlign: 'left',
     marginBottom: 30,
-    // outlineWidth: 0
   },
   results: {
     flex: 1
