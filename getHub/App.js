@@ -66,7 +66,7 @@ export default function App() {
   
       <TextInput
         style={styles.searchbar}
-        placeholder={state.searchbar}
+        value={state.searchbar}
         onChangeText={text => setState(prevState => {
           return {...prevState, searchbar: text}
         })}
