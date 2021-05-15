@@ -62,8 +62,8 @@ export default function App() {
         getHub
           <Image source={require('./assets/logo.png')} style={{width: 70, height: 50}}/>
       </Text>
-      <Text style={styles.motto}> The easiest way to GET /movies</Text>
-  
+      <Text style={styles.motto}>The easiest way to {'\n'}GET /movies</Text>
+    
       <TextInput
         style={styles.searchbar}
         value={state.searchbar}
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     color: 'green',
     fontWeight: 'normal',
     paddingBottom: 10,
+    textAlign: 'center'
   },
   logo: {
     width: 2,
