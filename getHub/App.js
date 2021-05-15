@@ -161,13 +161,13 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 30,
+    height: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
     borderRadius: 10,
-    fontSize: 40,
-    padding: 30,
+    fontSize: 30,
+    padding: 5,
     textAlign: 'left',
     marginBottom: 30,
     // outlineWidth: 0
