@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "OMDB API",
+    "githubUrl": "https://github.com/jonrhymes/gethub"
   }
 }
