@@ -16,7 +16,7 @@ import axios from 'axios';
 
 export default function App() {
   const [state, setState] = useState({
-      searchbar: 'search for any movie',
+      searchbar: '',
       results: [],
       selected: {},
       isVisible: false
@@ -62,18 +62,17 @@ export default function App() {
         getHub
           <Image source={require('./assets/logo.png')} style={{width: 70, height: 50}}/>
       </Text>
-      <Text style={styles.motto}> The easiest way to GET /movies</Text>
-  
-    <View>
+      <Text style={styles.motto}>The easiest way to {'\n'}GET /movies</Text>
+    
       <TextInput
         style={styles.searchbar}
-        placeholder={state.searchbar}
+        value={state.searchbar}
+        placeholder='search for any movie'
         onChangeText={text => setState(prevState => {
           return {...prevState, searchbar: text}
         })}
         onSubmitEditing={search}
         />
-    </View> 
 
     <ScrollView style={styles.results}>
       {state.results == 'no-results'?
@@ -85,6 +84,8 @@ export default function App() {
       state.results.map(result => (
         <TouchableHighlight
           key={result.imdbID}
+          activeOpacity={.7}
+          underlayColor={'yellow'}
           onPress={() => openPopup(result.imdbID)}
         >
           <View style={styles.result}>
@@ -94,7 +95,7 @@ export default function App() {
                 width: '100%',
                 height: 300
               }}
-              resizeMode='cover'
+              resizeMode='contain'
             />
             <Text style={styles.heading}>{result.Title}
               <Text style={styles.year}> ({result.Year})</Text>
@@ -115,9 +116,9 @@ export default function App() {
               source={{ uri: state.selected.Poster }}
               style={{
                 width: 200,
-                height: 200
+                height: 200,
               }}
-              resizeMode='cover'
+              resizeMode='contain'
             />
           <Text style={styles.popTitle}>{state.selected.Title} {state.selected.Year}</Text>
           <Text>Runtime: {state.selected.Runtime}</Text>
@@ -154,6 +155,7 @@ const styles = StyleSheet.create({
     color: 'green',
     fontWeight: 'normal',
     paddingBottom: 10,
+    textAlign: 'center'
   },
   logo: {
     width: 2,
@@ -161,16 +163,15 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     width: '100%',
-    height: 30,
+    height: 50,
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
     borderColor: 'green',
     borderWidth: 2,
     borderRadius: 10,
-    fontSize: 40,
-    padding: 30,
+    fontSize: 30,
+    paddingHorizontal: 15,
     textAlign: 'left',
     marginBottom: 30,
-    // outlineWidth: 0
   },
   results: {
     flex: 1
@@ -178,7 +179,8 @@ const styles = StyleSheet.create({
   result: {
     flex: 1,
     width: '100%',
-    marginBottom: 20
+    marginBottom: 20,
+    backgroundColor: 'black'
   },
   heading: {
     color: '#fff',
@@ -191,7 +193,8 @@ const styles = StyleSheet.create({
     fontWeight: 'normal'
   },
   popup: {
-    padding: 20
+    padding: 20,
+    justifyContent: 'center'
   },
   popTitle: {
     fontSize: 24,
