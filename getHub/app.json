@@ -28,7 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "OMDB API",
+    "description": "Search the OMDB API for movies!\nApp by Jon Rhymes, Tom Walker, and Curtis Woods",
     "githubUrl": "https://github.com/jonrhymes/gethub"
   }
 }
